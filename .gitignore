@@ -1,5 +1,7 @@
 *~
 install/*
+tmp/
 obj/*.[oa]
 !install/.gitkeep
+!tmp/.gitkeep
 

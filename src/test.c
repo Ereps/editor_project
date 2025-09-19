@@ -8,8 +8,13 @@ struct termios terminal;
 
 int main(int argc, char *argv[])
 {
+
+  // clear terminal
+  system("clear"); 
+
   // init terminal 
   tcgetattr(STDIN_FILENO,&original_terminal);
+  terminal = original_terminal;
   cfmakeraw(&terminal);
   tcsetattr(STDIN_FILENO,TCSAFLUSH,&terminal);
   char buffer[1024];
@@ -19,14 +24,17 @@ int main(int argc, char *argv[])
   while(rdr == 1 && (c != 'q') ){
     buffer[index_buffer] = c;
     index_buffer++;
-    printf("%c\n",c);
-    if(c == '\r'){
+    if (c == '\r') {
+    c = '\n';
+}
+    if(c == '\n'){
       for (int i = 0;i < index_buffer;i++) {
-        printf("%c | %d\n",buffer[i],index_buffer) ;
+        printf("%c | %d\r\n",buffer[i],index_buffer) ;
+}
       }
-    } 
+     
     rdr = read(STDIN_FILENO, &c, 1); 
-  };
+  }
   tcsetattr(STDIN_FILENO,TCSAFLUSH,&original_terminal);
   return EXIT_SUCCESS;
 }
