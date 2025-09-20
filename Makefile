@@ -2,17 +2,17 @@ SRC=src
 INCLUDE=include
 OBJ=obj
 INSTALL=install
-CC=gcc
-CFLAGS=-I$(INCLUDE)
+CC=gcc 
+CFLAGS=-I$(INCLUDE) -Wall -Wextra -g 
 
 all: build 
 
-build: $(INSTALL)/test 
+build: $(INSTALL)/main 
 
 run: build
-	@./$(INSTALL)/test
+	@./$(INSTALL)/main
 
-$(INSTALL)/test: $(OBJ)/test.o
+$(INSTALL)/main: $(OBJ)/main.o $(OBJ)/file_management.o
 	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS) 
 $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) $(CFLAGS) -o $@ -c $< 

@@ -1,0 +1,52 @@
+# Coding style: snake_case 
+
+# Based on the LLVM style, but customized for C
+BasedOnStyle: LLVM
+
+# Indentation width
+IndentWidth: 4
+
+# Use spaces instead of tabs
+UseTab: Never
+
+# Maximum line length
+ColumnLimit: 80
+
+# Indent case labels in switch statements
+IndentCaseLabels: true
+
+# Place braces on the same line
+BraceWrapping:
+  AfterFunction: false
+  AfterControlStatement: false
+  AfterEnum: false
+  AfterStruct: false
+  SplitEmptyFunction: false
+
+# Spaces around binary operators
+SpacesInParentheses: true
+SpaceBeforeParens: ControlStatements
+SpaceAfterCStyleCast: false
+SpacesInAngles: false   # Pas d'espaces dans < >
+SpacesInSquareBrackets: false  # Pas d'espaces dans [ ]
+AllowShortBlocksOnASingleLine: false  # Toujours des accolades sur une nouvelle ligne
+
+# Align declarations in columns
+AlignConsecutiveDeclarations: true
+
+# Keep comments on the same line
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# Handling of initialization lists
+AllowShortIfStatementsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortLoopsOnASingleLine: false
+BreakBeforeBraces: Allman
+
+# Pointer and reference handling
+PointerAlignment: Left
+
+# Wrapping long lines
+PenaltyBreakBeforeFirstCallParameter: 100
+PenaltyBreakString: 100
+
