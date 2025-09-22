@@ -8,10 +8,12 @@ const char* CLEAR_TERM = "\033[2J";
 
 int main( int argc, char* argv[] )
 {
-    char* file_name = "tmp/toto.tmp";
-    char  buffer[1024];
-    int   index_buffer = 0;
-    char  c;
+    int    BYPASS_ERROR = argc;
+    char** BYPASS_ARGV = argv;
+    char*  file_name = "tmp/toto.tmp";
+    char   buffer[1024];
+    int    index_buffer = 0;
+    char   c = 0;
 
     // clear terminal
     // system("clear");
@@ -20,12 +22,18 @@ int main( int argc, char* argv[] )
     tcgetattr( STDIN_FILENO, &original_terminal );
     terminal = original_terminal;
     cfmakeraw( &terminal );
+    // minimum number of byte needed before read can return
+    terminal.c_cc[VMIN] = 0;
+    // number of seconds before read quit
+    terminal.c_cc[VTIME] = 1;
     tcsetattr( STDIN_FILENO, TCSAFLUSH, &terminal );
     int rdr = read( STDIN_FILENO, &c, 1 );
-    while ( rdr == 1 && ( c != 'q' ) )
+    while ( ( c != 'q' ) )
     {
-        printf( "%s", CLEAR_TERM );
-
+        // printf( "%s", CLEAR_TERM );
+        write( STDOUT_FILENO, &rdr, sizeof( int ) );
+        if ( rdr == 1 )
+            write( STDOUT_FILENO, &c, sizeof( char ) );
         if ( c == '\r' )
         {
             printf( "toto" );
