@@ -1,10 +1,30 @@
 #include "file_management.h"
+#include <string.h>
 #include <termios.h>
 #include <unistd.h>
 struct termios original_terminal;
 struct termios terminal;
 
 const char* CLEAR_TERM = "\033[2J";
+const char* RETURN_TERM = "\r";
+
+int cursor_x = 0;
+int cursor_y = 0;
+
+void goto_cursor( int x, int y )
+{
+    char buffer_x[1024];
+    char buffer_y[1024];
+    sprintf( buffer_x, "%d", x );
+    sprintf( buffer_y, "%d", y );
+    char goto_string[4096] = "\033[";
+    strcat( goto_string, buffer_x );
+    strcat( goto_string, ";" );
+    strcat( goto_string, buffer_y );
+    strcat( goto_string, "H" );
+    printf( "\n%d;%d c'est le truc \n", x, y );
+    write( STDOUT_FILENO, goto_string, sizeof( char ) * strlen( goto_string ) );
+}
 
 int main( int argc, char* argv[] )
 {
@@ -31,23 +51,24 @@ int main( int argc, char* argv[] )
     while ( ( c != 'q' ) )
     {
         // printf( "%s", CLEAR_TERM );
-        write( STDOUT_FILENO, &rdr, sizeof( int ) );
+        // key pressed
         if ( rdr == 1 )
-            write( STDOUT_FILENO, &c, sizeof( char ) );
+        {
+            write( STDOUT_FILENO, CLEAR_TERM,
+                   sizeof( char ) * strlen( CLEAR_TERM ) );
+            // ca reste a la find de la ligne car y'a le buffer qui write tout
+            // write( STDOUT_FILENO, RETURN_TERM, sizeof( char ) );
+            goto_cursor( 100, 100 );
+            buffer[index_buffer] = c;
+            index_buffer++;
+            for ( int i = 0; i < index_buffer; i++ )
+                write( STDOUT_FILENO, &buffer[i], sizeof( char ) );
+        }
         if ( c == '\r' )
         {
-            printf( "toto" );
-            c = '\n';
-        }
-        buffer[index_buffer] = c;
-        index_buffer++;
-        for ( int i = 0; i < index_buffer; i++ )
-        {
-        }
-
-        if ( c == '\n' )
-        {
-            printf( "tata" );
+            goto_cursor( 100, 100 );
+            write( STDOUT_FILENO, CLEAR_TERM,
+                   sizeof( char ) * strlen( CLEAR_TERM ) );
         }
 
         rdr = read( STDIN_FILENO, &c, 1 );
