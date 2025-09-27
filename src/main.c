@@ -61,11 +61,22 @@ int main( int argc, char* argv[] )
             else if ( c == 127 || c == 8 )
             {
                 index_buffer--;
+                // reset cursor
+                goto_cursor( 0, 0 );
+                write( STDOUT_FILENO, CLEAR_TERM,
+                       sizeof( char ) * strlen( CLEAR_TERM ) );
+                for ( int i = 0; i < index_buffer; i++ )
+                {
+                    int temp = 1;
+                    if ( buffer[i] == '\r' || buffer[i] == '\n' )
+                    {
+                        write( STDOUT_FILENO, "\r\n", sizeof( char ) * 2 );
+                    }
+                    else
+                        write( STDOUT_FILENO, &buffer[i], sizeof( char ) );
+                }
             }
-            else if ( c == '\r' || c == '\n' )
-            {
-                printf( "\nEnter pressed!\n" );
-            }
+
             else if ( c == 3 )
             { // Ctrl+C to exit
                 break;
