@@ -12,8 +12,9 @@ build: $(INSTALL)/main
 run: build
 	@./$(INSTALL)/main
 
-$(INSTALL)/main: $(OBJ)/main.o $(OBJ)/file_management.o
+$(INSTALL)/main: $(OBJ)/main.o $(OBJ)/file_management.o $(OBJ)/key.o $(OBJ)/cursor.o 
 	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS) 
+
 $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) $(CFLAGS) -o $@ -c $< 
 

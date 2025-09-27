@@ -1,8 +1,6 @@
 #ifndef __FILE_MANAGEMENT_H__
 #define __FILE_MANAGEMENT_H__
 
-#include <stdlib.h>
-#include <stdio.h>
 /*
  *Open the file
  */

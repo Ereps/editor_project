@@ -1,4 +1,6 @@
 #include "file_management.h"
+#include <stdio.h>
+#include <stdlib.h>
 FILE* file_ptr_to_modify;
 FILE* file_ptr_to_print;
 
@@ -8,7 +10,7 @@ void print_file()
     char buffer[1024];
     while ( fgets( buffer, 1024, file_ptr_to_print ) != NULL )
     {
-        printf( "%s\r\n", buffer );
+        printf( "%s\n", buffer );
     }
 }
 
