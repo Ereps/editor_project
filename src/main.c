@@ -1,5 +1,5 @@
 #include "file_management.h"
-#include "key.h"
+#include "input.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,7 +26,7 @@ int main( int argc, char* argv[] )
     terminal.c_cc[VTIME] = 1;
     tcsetattr( STDIN_FILENO, TCSAFLUSH, &terminal );
 
-    key_management();
+    input_management();
 
     tcsetattr( STDIN_FILENO, TCSAFLUSH, &original_terminal );
     return EXIT_SUCCESS;
